@@ -58,17 +58,47 @@ void loop() {
             if(modePBDebounce >= 1025) {                                       // if pushbutton was released for 25 mS
                modePBDebounce = 0;                                             // reset debounce timer count
                mode++;                                               // switch to next mode
-               mode = mode & 2;                            // keep mode index between 0 and 7
+               mode = mode & 3;                            // keep mode index between 0 and 7
             }
          }
       }
 
   switch (mode){
     case 0:
+
+    //move forwards 3s
+    moveForward(3000);
+
+    //turn 45* left
+    turnLeft(500);
+
+    //drive forwards 2s
+    moveForward(2000);
+
+    //turn 90* right
+    turnRight(1000);
+
+    //forwards 2s
+    moveForward(2000);
+
+    //backwards 8.243s
+    moveBackward(8.243);
+
+    //turn 45* right
+    turnRight(500);
+
+    //forwards for 5.828s
+    moveForward(5.828);
+
+    //turn left 90*
+    turnLeft(1000);
+    break;
+
+    case 1:
   // Move forward for 3 meters
     moveForward(3000); // Assuming each meter takes 1000 milliseconds to cross
     
-    // Turn left
+    // Turn left (1000)
     turnLeft(TURN_DURATION);
     
     // Move forward for 3 meters
@@ -93,7 +123,8 @@ void loop() {
     moveForward(3000);
     
     break;
-    case 1:
+
+    case 2:
   // Move forward for 3 meters
     moveForward(DRIVE_DURATION);
 
@@ -122,7 +153,8 @@ void loop() {
     moveForward(DRIVE_DURATION);
     
     break;
-    case2:
+
+    case3:
   // Move forward for 3 meters
     moveForward(DRIVE_DURATION);
 
@@ -145,6 +177,14 @@ void moveForward(int duration) {
   digitalWrite(LEFT_MOTOR_B, LOW);
   digitalWrite(RIGHT_MOTOR_A, HIGH);
   digitalWrite(RIGHT_MOTOR_B, LOW);
+  delay(duration);
+}
+
+void moveBackward(int duration) {
+  digitalWrite(LEFT_MOTOR_A, LOW);
+  digitalWrite(LEFT_MOTOR_B, HIGH);
+  digitalWrite(RIGHT_MOTOR_A, LOW);
+  digitalWrite(RIGHT_MOTOR_B, HIGH);
   delay(duration);
 }
 
