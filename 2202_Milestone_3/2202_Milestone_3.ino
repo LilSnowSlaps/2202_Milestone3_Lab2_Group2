@@ -77,16 +77,16 @@ void loop() {
     setServoPosition(45); // Set servo position to 45 degrees
     delay(1000);
     moveForward(3000);
-    setServoPosition(0); // Set servo position to 45 degrees
+    setServoPosition(0); // Set servo position to 0 degrees
     delay(1000);
     moveBackward(3000);
-    setServoPosition(135); // Set servo position to 45 degrees
+    setServoPosition(135); // Set servo position to 135 degrees
     delay(1000);
     moveForward(3000);
     setServoPosition(45); // Set servo position to 45 degrees
     delay(1000);
     moveBackward(3000);
-    setServoPosition(135); // Set servo position to 45 degrees
+    setServoPosition(135); // Set servo position to 135 degrees
     delay(1000);
     moveForward(3000);
     break;
@@ -210,35 +210,35 @@ setServoPosition(0); // Set servo position to 45 degrees
   }
 }
 
-void moveForward(int duration) {
-  digitalWrite(LEFT_MOTOR_A, HIGH);
+void moveForward(int duration) { //move forwards
+  digitalWrite(LEFT_MOTOR_A, HIGH); //forward channel high
   digitalWrite(LEFT_MOTOR_B, LOW);
-  digitalWrite(RIGHT_MOTOR_A, HIGH);
+  digitalWrite(RIGHT_MOTOR_A, HIGH); //forward channel high
   digitalWrite(RIGHT_MOTOR_B, LOW);
   delay(duration);
 }
 
 void moveBackward(int duration) {
   digitalWrite(LEFT_MOTOR_A, LOW);
-  digitalWrite(LEFT_MOTOR_B, HIGH);
+  digitalWrite(LEFT_MOTOR_B, HIGH); //backward channel high
   digitalWrite(RIGHT_MOTOR_A, LOW);
-  digitalWrite(RIGHT_MOTOR_B, HIGH);
+  digitalWrite(RIGHT_MOTOR_B, HIGH); //backward channel high
   delay(duration);
 }
 
 void turnLeft(int duration) {
   digitalWrite(LEFT_MOTOR_A, LOW);
-  digitalWrite(LEFT_MOTOR_B, HIGH);
-  digitalWrite(RIGHT_MOTOR_A, HIGH);
+  digitalWrite(LEFT_MOTOR_B, HIGH); //backwards channel high
+  digitalWrite(RIGHT_MOTOR_A, HIGH); //forwards channel high
   digitalWrite(RIGHT_MOTOR_B, LOW);
   delay(duration);
 }
 
 void turnRight(int duration) {
-  digitalWrite(LEFT_MOTOR_A, HIGH);
+  digitalWrite(LEFT_MOTOR_A, HIGH); //forwrads channel high
   digitalWrite(LEFT_MOTOR_B, LOW);
   digitalWrite(RIGHT_MOTOR_A, LOW);
-  digitalWrite(RIGHT_MOTOR_B, HIGH);
+  digitalWrite(RIGHT_MOTOR_B, HIGH); //backwards channel high
   delay(duration);
 }
 
@@ -258,12 +258,12 @@ void zigzag() {
   }
 }
 
-void setServoPosition(int degrees) {
+void setServoPosition(int degrees) {  //writes the servo to a duty cycle   
   int dutyCycle = degreesToDutyCycle(degrees);
   ledcWrite(cServoChannel, dutyCycle);
 }
 
-int degreesToDutyCycle(int degrees) {
+int degreesToDutyCycle(int degrees) { //maps servo degrees to duty cycle
   // Map degrees (0-180) to duty cycle (500-2500)
   return map(degrees, 0, 180, 500, 2500);
 }
