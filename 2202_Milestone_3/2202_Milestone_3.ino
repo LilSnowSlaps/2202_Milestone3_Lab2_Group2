@@ -18,6 +18,9 @@
 //variable declarations
 unsigned int mode = 0;
 unsigned int modePBDebounce = 0;
+const int cServoPin          = 41;                 // GPIO pin for servo motor
+const int cServoChannel      = 5;                  // PWM channel used for the RC servo motor
+
 
 // Function prototypes
 void moveForward(int duration);
@@ -32,6 +35,10 @@ void setup() {
   pinMode(LEFT_MOTOR_B, OUTPUT);
   pinMode(RIGHT_MOTOR_A, OUTPUT);
   pinMode(RIGHT_MOTOR_B, OUTPUT);
+  // Setup Motor
+  pinMode(cServoPin, OUTPUT);                         // sets the servo to output
+  ledcSetup(cServoChannel, 50, 14);                // setup for channel for 50 Hz, 14-bit resolution
+  ledcAttachPin(cServoPin, cServoChannel);         // assign servo pin to servo channel
 }
 
 void loop() {
@@ -58,19 +65,45 @@ void loop() {
             if(modePBDebounce >= 1025) {                                       // if pushbutton was released for 25 mS
                modePBDebounce = 0;                                             // reset debounce timer count
                mode++;                                               // switch to next mode
-               mode = mode & 3;                            // keep mode index between 0 and 7
+               mode = mode & 4;                            // keep mode index between 0 and 7
             }
          }
       }
 
   switch (mode){
+    
+    case 1:
+    moveForward(3000);
+    setServoPosition(45); // Set servo position to 45 degrees
+    delay(1000);
+    moveForward(3000);
+    setServoPosition(0); // Set servo position to 45 degrees
+    delay(1000);
+    moveBackward(3000);
+    setServoPosition(135); // Set servo position to 45 degrees
+    delay(1000);
+    moveForward(3000);
+    setServoPosition(45); // Set servo position to 45 degrees
+    delay(1000);
+    moveBackward(3000);
+    setServoPosition(135); // Set servo position to 45 degrees
+    delay(1000);
+    moveForward(3000);
+    break;
+    
     case 0:
 
     //move forwards 3s
     moveForward(3000);
 
+setServoPosition(45); // Set servo position to 45 degrees
+  delay(1000); // Wait for 1 second
+
     //turn 45* left
     turnLeft(500);
+
+setServoPosition(135); // Set servo position to 45 degrees
+  delay(1000); // Wait for 1 second
 
     //drive forwards 2s
     moveForward(2000);
@@ -94,38 +127,43 @@ void loop() {
     turnLeft(1000);
     break;
 
-    case 1:
-  // Move forward for 3 meters
-    moveForward(3000); // Assuming each meter takes 1000 milliseconds to cross
-    
-    // Turn left (1000)
-    turnLeft(TURN_DURATION);
-    
-    // Move forward for 3 meters
-    moveForward(3000);
-    
-    // Turn right
-    turnRight(TURN_DURATION);
-    
-    // Move forward for 3 meters
-    moveForward(3000);
-    
-    // Turn left
-    turnLeft(TURN_DURATION);
-    
-    // Move forward for 3 meters
-    moveForward(3000);
-    
-    // Turn right
-    turnRight(TURN_DURATION);
-    
-    // Move forward for 3 meters
-    moveForward(3000);
-    
-    break;
-
     case 2:
   // Move forward for 3 meters
+    moveForward(3000); // Assuming each meter takes 1000 milliseconds to cross
+
+    // Turn left (1000)
+    turnLeft(TURN_DURATION);
+  
+
+    // Move forward for 3 meters
+    moveForward(3000);
+    
+setServoPosition(0); // Set servo position to 45 degrees
+  delay(1000); // Wait for 1 second
+
+
+    // Turn right
+    turnRight(TURN_DURATION);
+    
+    // Move forward for 3 meters
+    moveForward(3000);
+    
+    // Turn left
+    turnLeft(TURN_DURATION);
+    
+    // Move forward for 3 meters
+    moveForward(3000);
+    
+    // Turn right
+    turnRight(TURN_DURATION);
+    
+    // Move forward for 3 meters
+    moveForward(3000);
+    
+    break;
+
+    case 3:
+  // Move forward for 3 meters
     moveForward(DRIVE_DURATION);
 
     // Turn left
@@ -154,7 +192,7 @@ void loop() {
     
     break;
 
-    case3:
+    case4:
   // Move forward for 3 meters
     moveForward(DRIVE_DURATION);
 
@@ -220,9 +258,15 @@ void zigzag() {
   }
 }
 
+void setServoPosition(int degrees) {
+  int dutyCycle = degreesToDutyCycle(degrees);
+  ledcWrite(cServoChannel, dutyCycle);
+}
 
-
-
+int degreesToDutyCycle(int degrees) {
+  // Map degrees (0-180) to duty cycle (500-2500)
+  return map(degrees, 0, 180, 500, 2500);
+}
 
 
 
