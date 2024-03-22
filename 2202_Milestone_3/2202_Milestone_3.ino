@@ -301,40 +301,24 @@ void loop() {
 }
 
 void moveForward(int duration) {
-  digitalWrite(LEFT_MOTOR_A, HIGH);
-  digitalWrite(LEFT_MOTOR_B, LOW);
-  digitalWrite(RIGHT_MOTOR_A, HIGH);
-  digitalWrite(RIGHT_MOTOR_B, LOW);
    setMotor(1, driveSpeed, cIN1Chan[0],cIN2Chan[0]); // forward left motor
     setMotor(1,driveSpeed,cIN1Chan[1],cIN2Chan[1]); // forward right motor
      delay(duration);
 }
 
 void moveBackward(int duration) {
-  digitalWrite(LEFT_MOTOR_A, LOW);
-  digitalWrite(LEFT_MOTOR_B, HIGH);
-  digitalWrite(RIGHT_MOTOR_A, LOW);
-  digitalWrite(RIGHT_MOTOR_B, HIGH);
   setMotor(-1, driveSpeed, cIN1Chan[0],cIN2Chan[0]); // reverse left motor
   setMotor(-1, driveSpeed, cIN1Chan[1],cIN2Chan[1]); // reverse right motor
   delay(duration);
 }
 
 void turnLeft(int duration) {
-  digitalWrite(LEFT_MOTOR_A, LOW);
-  digitalWrite(LEFT_MOTOR_B, HIGH);
-  digitalWrite(RIGHT_MOTOR_A, HIGH);
-  digitalWrite(RIGHT_MOTOR_B, LOW);
   setMotor(-1, driveSpeed, cIN1Chan[0],cIN2Chan[0]); // reverse left motor
   setMotor(1, driveSpeed, cIN1Chan[1],cIN2Chan[1]); // reverse right motor
   delay(duration);
 }
 
 void turnRight(int duration) {
-  digitalWrite(LEFT_MOTOR_A, HIGH);
-  digitalWrite(LEFT_MOTOR_B, LOW);
-  digitalWrite(RIGHT_MOTOR_A, LOW);
-  digitalWrite(RIGHT_MOTOR_B, HIGH);
   setMotor(1, driveSpeed, cIN1Chan[0],cIN2Chan[0]); // reverse left motor
   setMotor(-1, driveSpeed, cIN1Chan[1],cIN2Chan[1]); // reverse right motor
    delay(duration);
